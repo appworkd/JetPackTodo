@@ -13,7 +13,7 @@ interface TodoDao {
     fun getAllToDos(): LiveData<List<TodoModel>>
 
     @Query("SELECT * FROM TABLE_TODO WHERE COLUMN_TODO_ID IN (:todoId)")
-     fun getSingleTodoWithId(todoId: Long): TodoModel
+    fun getSingleTodoWithId(todoId: Long): TodoModel
 
     @Delete
     suspend fun deleteTodo(todo: TodoModel)

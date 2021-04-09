@@ -1,26 +1,30 @@
 package com.appwork.lufthasnaproject.ui.adapters
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.appwork.lufthasnaproject.databinding.ItemTodoBinding
 import com.appwork.lufthasnaproject.model.TodoModel
+import com.appwork.lufthasnaproject.utils.PriorityEnum
 import com.appwork.lufthasnaproject.utils.StringVariables.KEY_DELETE
 import com.appwork.lufthasnaproject.utils.StringVariables.KEY_GET
 
 class TodoListAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var priorityItem = PriorityEnum.values()
+
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TodoModel>() {
 
         override fun areItemsTheSame(oldItem: TodoModel, newItem: TodoModel): Boolean {
-           return oldItem.todoId==newItem.todoId
+            return oldItem.todoId == newItem.todoId
         }
 
         override fun areContentsTheSame(oldItem: TodoModel, newItem: TodoModel): Boolean {
-           return oldItem==newItem
+            return oldItem == newItem
         }
 
     }
@@ -28,8 +32,10 @@ class TodoListAdapter(private val interaction: Interaction? = null) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val itemBinding=ItemTodoBinding.inflate(LayoutInflater.from(parent.context),
-        parent,false)
+        val itemBinding = ItemTodoBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        )
         return TodoVH(
             itemBinding,
             interaction
@@ -59,17 +65,25 @@ class TodoListAdapter(private val interaction: Interaction? = null) :
 
         fun bind(item: TodoModel) {
             itemView.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item,KEY_GET)
+                interaction?.onItemSelected(adapterPosition, item, KEY_GET)
             }
-            itemViewBinding.tvItemTitle.text= differ.currentList[adapterPosition].todoTitle
-            itemViewBinding.tvItemSubTitle.text= differ.currentList[adapterPosition].todoSubTitle
+            itemViewBinding.tvItemTitle.text = differ.currentList[adapterPosition].todoTitle
+            itemViewBinding.tvItemSubTitle.text = differ.currentList[adapterPosition].todoSubTitle
             itemViewBinding.ivDetails.setOnClickListener {
-                interaction?.onItemSelected(adapterPosition, item,KEY_DELETE)
+                interaction?.onItemSelected(adapterPosition, item, KEY_DELETE)
+            }
+            item.todoPriority.let {
+                itemViewBinding.priority.setColorFilter(
+                    ContextCompat.getColor(
+                        itemViewBinding.priority.context,
+                        priorityItem[it - 1].colorRes
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
             }
         }
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: TodoModel,action:String)
+        fun onItemSelected(position: Int, item: TodoModel, action: String)
     }
 }

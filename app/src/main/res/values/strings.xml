@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LufthasnaProject</string>
+    <string name="app_name">Todo</string>
     <string name="str_counter">Counter : %d </string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
@@ -8,4 +8,15 @@
     <string name="str_title">Title</string>
     <string name="str_details">Details</string>
     <string name="str_add">Add</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="date">Date</string>
+    <string-array name="SelectPriority">
+        <item>Priority</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>
